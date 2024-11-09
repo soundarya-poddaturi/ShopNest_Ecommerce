@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 const Products = require('./Products');
 const Data = require('./Data');
 const Category = require('./Categories');
@@ -9,74 +9,96 @@ const cors = require('cors');
 const app = express();
 const path = require('path');
 
-// Enable CORS for all routes
-// app.use(cors());
-app.use(cors({
-  origin: process.env.FRONTEND_URL,  // Corrected: use process.env.FRONTEND_URL
+// Middleware
+app.use(cors({ 
+    origin: process.env.FRONTEND_URL,
+    credentials: true
 }));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(express.json());
 
-
-app.all('*', (req, res) => {
-  console.log('Request URL:', req.url);
-  res.status(404).json({ error: 'Route not found' });
+// Add logging middleware
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
 });
 
-app.get('/products', (req, res) => {
+// Basic root route
+app.get('/', (req, res) => {
+    res.json({ message: 'API is running' });
+});
+
+// API routes
+const router = express.Router();
+
+router.get('/products', (req, res) => {
     res.json(Data);
 });
 
-app.get('/products/:id', (req, res) => {
-  const productId = parseInt(req.params.id);
-  const product = Data.find(product => product.id === productId);
-  
-  if (!product) {
-    res.status(404).json({ error: 'Product not found' });
-  } else {
-    res.json(product);
-  }
+router.get('/products/:id', (req, res) => {
+    const productId = parseInt(req.params.id);
+    const product = Data.find(product => product.id === productId);
+    if (!product) {
+        res.status(404).json({ error: 'Product not found' });
+    } else {
+        res.json(product);
+    }
 });
 
-app.get('/categories', (req, res) => {
-    res.send(Category);
+router.get('/categories', (req, res) => {
+    res.json(Category);
 });
 
-app.get('/products/category/:category', (req, res) => {
-  const category = req.params.category.toLowerCase();
-  const productsByCategory = Data.filter(product => product.category.toLowerCase() === category);
-  
-  if (productsByCategory.length === 0) {
-    res.status(404).json({ error: 'Category not found' });
-  } else {
-    res.json(productsByCategory);
-  }
+router.get('/products/category/:category', (req, res) => {
+    const category = req.params.category.toLowerCase();
+    const productsByCategory = Data.filter(product => 
+        product.category.toLowerCase() === category
+    );
+    if (productsByCategory.length === 0) {
+        res.status(404).json({ error: 'Category not found' });
+    } else {
+        res.json(productsByCategory);
+    }
 });
 
-app.get('/users', (req, res) => {
-  res.json(Users);
+router.get('/users', (req, res) => {
+    res.json(Users);
 });
 
-app.get('/users/:id', (req, res) => {
-  const userId = parseInt(req.params.id);
-  const user = Users.find(user => user.id === userId);
-
-  if (!user) {
-    res.status(404).json({ error: 'User not found' });
-  } else {
-    res.json(user);
-  }
+router.get('/users/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    const user = Users.find(user => user.id === userId);
+    if (!user) {
+        res.status(404).json({ error: 'User not found' });
+    } else {
+        res.json(user);
+    }
 });
 
-app.get('/orders/:userId', (req, res) => {
-  const userId = parseInt(req.params.userId);
-  const userOrders = Orders.filter(order => order.userId === userId);
-
-  if (userOrders.length === 0) {
-    res.status(404).json({ error: 'User orders not found' });
-  } else {
-    res.json(userOrders);
-  }
+router.get('/orders/:userId', (req, res) => {
+    const userId = parseInt(req.params.userId);
+    const userOrders = Orders.filter(order => order.userId === userId);
+    if (userOrders.length === 0) {
+        res.status(404).json({ error: 'User orders not found' });
+    } else {
+        res.json(userOrders);
+    }
 });
 
-// Export the app for Vercel
+// Mount the router
+app.use('/api', router);
+
+// Static files
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something broke!' });
+});
+
+// 404 handler - keep this last
+app.use('*', (req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
 module.exports = app;
