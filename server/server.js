@@ -7,9 +7,12 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const path = require('path');
-
+require('dotenv').config(); 
 // Enable CORS for all routes
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: FRONTEND_URL, // Allow only the frontend URL specified in .env
+}));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.get('/products', (req, res) => {
