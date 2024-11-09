@@ -24,13 +24,13 @@ const ProductDetail = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const userId = auth.user?.id;
-  const baseURL = 'http://localhost:8009';
+  const baseURL = `${process.env.REACT_APP_API_URL}`;
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8009/products/${id}`
+          `${process.env.REACT_APP_API_URL}/products/${id}`
         );
         setProduct(response.data);
         console.log(response.data);

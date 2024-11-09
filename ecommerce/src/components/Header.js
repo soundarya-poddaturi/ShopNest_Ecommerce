@@ -22,7 +22,7 @@ const Header = () => {
   
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:8009/categories');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`);
         const data = await response.json();
 
       console.log(data);

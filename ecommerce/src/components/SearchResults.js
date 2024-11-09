@@ -11,7 +11,7 @@ const SearchResults = () => {
     <div>
       <h4 className="px-5 mt-5">Search Results for "{query}"</h4>
       {/* Render the Product component with the search query */}
-      <Product apiUrl="http://localhost:8009/products" searchQuery={searchQuery} />
+      <Product apiUrl={`${process.env.REACT_APP_API_URL}/products`} searchQuery={searchQuery} />
     </div>
   );
 };

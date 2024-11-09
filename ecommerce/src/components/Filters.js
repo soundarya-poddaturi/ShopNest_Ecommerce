@@ -11,7 +11,7 @@
   
     useEffect(() => {
       // Fetch categories from the Express API
-      axios.get("http://localhost:8009/categories")
+      axios.get(`${process.env.REACT_APP_API_URL}/categories`)
         .then(response => {
           setCategories(response.data);
         })

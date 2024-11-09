@@ -15,8 +15,8 @@ const CategoryProducts = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [apiUrl, setApiUrl] = useState(
     category === "all"
-      ? "http://localhost:8009/products"
-      : `http://localhost:8009/products/category/${category}`
+      ? `${process.env.REACT_APP_API_URL}/products`
+      : `${process.env.REACT_APP_API_URL}/products/category/${category}`
   );
 
   const [filters, setFilters] = useState(false);
@@ -49,7 +49,7 @@ const [showTypeFilter, setShowTypeFilter] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8009/products/category/${category}`)
+      .get(`${process.env.REACT_APP_API_URL}/products/category/${category}`)
       .then((response) => {
         const data = response.data;
         // Existing state updates
@@ -146,8 +146,8 @@ const [showTypeFilter, setShowTypeFilter] = useState(false);
   const updateApiUrl = (selectedCategory) => {
     setApiUrl(
       selectedCategory === "all"
-        ? "http://localhost:8009/products"
-        : `http://localhost:8009/products/category/${selectedCategory}`
+        ? `${process.env.REACT_APP_API_URL}/products`
+        : `${process.env.REACT_APP_API_URL}/products/category/${selectedCategory}`
     );
   };
 

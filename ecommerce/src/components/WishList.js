@@ -15,7 +15,7 @@ const Wishlist = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const auth = useSelector((state) => state.auth);
   const userId = auth.user?.id;
-  const baseURL = "http://localhost:8009";
+  const baseURL = `${process.env.REACT_APP_API_URL}`;
   const handleAddToCart = (product) => {
     let defaultSize = "";
 

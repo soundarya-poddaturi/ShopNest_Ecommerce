@@ -25,7 +25,7 @@ const Cart = () => {
   const auth = useSelector((state) => state.auth);
   const userId = auth.user?.id;
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const baseURL = "http://localhost:8009";
+  const baseURL = `${process.env.REACT_APP_API_URL}`;
   const dispatch = useDispatch();
 
   const handleCloseLoginModal = () => {

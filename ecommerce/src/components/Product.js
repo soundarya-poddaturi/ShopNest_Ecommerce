@@ -46,7 +46,7 @@ const Product = ({
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
-  const baseURL = 'http://localhost:8009';
+  const baseURL = `${process.env.REACT_APP_API_URL}`;
   useEffect(() => {
     const fetchData = async () => {
       try {

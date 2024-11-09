@@ -55,7 +55,7 @@ const Checkout = () => {
     const fetchUserAddress = async () => {
       try {
         if (userId) {
-          const response = await fetch(`http://localhost:8009/users/${userId}`);
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`);
           const userData = await response.json();
           console.log(userData.address);
           setUserAddress(userData.address);

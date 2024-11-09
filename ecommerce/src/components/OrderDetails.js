@@ -9,11 +9,11 @@ const OrderDetails = () => {
   const [userAddress, setUserAddress] = useState({});
   const [productDetails, setProductDetails] = useState([]);
   const navigate = useNavigate();
-  const baseURL = "http://localhost:8009";
+  const baseURL = `${process.env.REACT_APP_API_URL}`;
   useEffect(() => {
     if (isAuthenticated && userId) {
       axios
-        .get(`http://localhost:8009/orders/${userId}`)
+        .get(`${process.env.REACT_APP_API_URL}/orders/${userId}`)
 
         .then((response) => {
           const fetchedOrders = response.data;
@@ -33,7 +33,7 @@ const OrderDetails = () => {
         });
 
       axios
-        .get(`http://localhost:8009/users/${userId}`)
+        .get(`${process.env.REACT_APP_API_URL}/users/${userId}`)
         .then((response) => {
           console.log(response.data.address);
           setUserAddress(response.data.address);
@@ -55,7 +55,7 @@ const OrderDetails = () => {
             console.log(productId); // Log the product ID
 
             return axios
-              .get(`http://localhost:8009/products/${productId}`)
+              .get(`${process.env.REACT_APP_API_URL}/products/${productId}`)
               .then((response) => response.data)
               .catch((error) => {
                 console.error(

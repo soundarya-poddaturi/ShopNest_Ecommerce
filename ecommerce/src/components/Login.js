@@ -87,7 +87,7 @@ const Login = ({ closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const response = await fetch("http://localhost:8009/users");
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/users`);
     // const response =await fetch("../../components/user.js")
     const users = await response.json();
   
@@ -155,7 +155,7 @@ const Login = ({ closeModal }) => {
                 </div>
               )}
               {(!showAlert && isAuthenticated )&&(
-                <LoggedInInfo message={`Hello, ${username}, you are already logged in.`}/>
+                <LoggedInInfo message={`Hello, ${loggedInUsername}, you are already logged in.`}/>
               )}
 
 

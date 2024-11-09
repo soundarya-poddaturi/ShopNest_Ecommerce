@@ -21,7 +21,7 @@ import OrderDetails from './components/OrderDetails';
 import Confirmation from './components/Confirmation';
 import ProductItem from './components/ProductItem';
 function App() {
-  const apiUrl = "http://localhost:8009/products"; 
+  const apiUrl = `${process.env.REACT_APP_API_URL}/products`; 
   const dispatch = useDispatch();
 
     useEffect(() => {
