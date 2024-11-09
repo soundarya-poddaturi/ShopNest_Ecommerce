@@ -10,9 +10,26 @@ const app = express();
 const path = require('path');
 
 // Middleware
-app.use(cors({ 
-    origin: process.env.FRONTEND_URL,
-    credentials: true
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.LOCAL_FRONTEND_URL
+].filter(Boolean); // This removes any undefined values
+
+// Updated CORS configuration using environment variables
+app.use(cors({
+  origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) === -1) {
+          var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+          return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
