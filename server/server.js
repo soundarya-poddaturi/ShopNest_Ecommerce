@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const Products = require('./Products');
 const Data = require('./Data');
 const Category = require('./Categories');
@@ -7,11 +8,11 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const path = require('path');
-require('dotenv').config(); 
+
 // Enable CORS for all routes
 // app.use(cors());
 app.use(cors({
-  origin: FRONTEND_URL, // Allow only the frontend URL specified in .env
+  origin: process.env.FRONTEND_URL,  // Corrected: use process.env.FRONTEND_URL
 }));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
