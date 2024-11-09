@@ -15,6 +15,12 @@ app.use(cors({
 }));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+
+app.all('*', (req, res) => {
+  console.log('Request URL:', req.url);
+  res.status(404).json({ error: 'Route not found' });
+});
+
 app.get('/products', (req, res) => {
     res.json(Data);
 });
