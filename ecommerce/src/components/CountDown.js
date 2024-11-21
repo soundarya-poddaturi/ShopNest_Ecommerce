@@ -40,12 +40,15 @@ const CountDown = () => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            calculateTimeLeft();
+            calculateTimeLeft();  // Recalculate time every second
         }, 1000);
-
-        // Clear the timer when the component unmounts
-        return () => clearInterval(timer);
+    
+        // Ensure the countdown is updated immediately on mount
+        calculateTimeLeft();
+    
+        return () => clearInterval(timer); // Clear interval on cleanup
     }, []);
+    
 
     // Function to add leading zeros to single-digit numbers
     const formatTime = (time) => {
