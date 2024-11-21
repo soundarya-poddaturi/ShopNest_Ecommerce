@@ -11,9 +11,10 @@ const CountDown = () => {
     const navigate=useNavigate();
     // Function to calculate time left until a specific date
     const calculateTimeLeft = () => {
-        const endDate = new Date('June 11, 2024 00:00:00').getTime();
         const now = new Date().getTime();
-        const difference = endDate - now;
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 5); // Set end date to 5 days from now
+        const difference = endDate.getTime() - now;
 
         if (difference > 0) {
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
