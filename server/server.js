@@ -100,12 +100,18 @@ router.get('/orders/:userId', (req, res) => {
         res.json(userOrders);
     }
 });
+app.use('/api/images', express.static(path.join(__dirname, 'images')));
 
 // Mount the router
 app.use('/api', router);
 
 // Static files
-app.use('api/images', express.static(path.join(__dirname, 'images')));
+// Static files
+
+// 404 handler - keep this last
+app.use('*', (req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
 console.log('Static files from:', path.join(__dirname, 'images'));
 
 // Error handling middleware
@@ -114,9 +120,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something broke!' });
 });
 
-// 404 handler - keep this last
-app.use('*', (req, res) => {
-    res.status(404).json({ error: 'Route not found' });
-});
+
 
 module.exports = app;
