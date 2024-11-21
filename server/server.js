@@ -105,7 +105,8 @@ router.get('/orders/:userId', (req, res) => {
 app.use('/api', router);
 
 // Static files
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('api/images', express.static(path.join(__dirname, 'images')));
+console.log('Static files from:', path.join(__dirname, 'images'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
